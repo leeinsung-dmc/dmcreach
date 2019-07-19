@@ -276,7 +276,6 @@ mix_reach<- function(mixfile, output){
     mix[i,]$AF_w <- mix[i,]$grps_w/mix[i,]$reach_w
   }
 
-  View(mix)
   return(mix)
 
   rm(list="parameter")
