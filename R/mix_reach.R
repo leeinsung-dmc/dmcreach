@@ -216,6 +216,7 @@ mix_reach<- function(mixfile, output){
 
   mix<-read.csv(mixfile, stringsAsFactors=FALSE)
   mix<-transoverall(mix)
+  mix$output_pop <- NA
   mix$output_target_gender <- output[1]
   mix$output_target_age <- output[2]
   mix$impression_target <- NA
@@ -276,9 +277,11 @@ mix_reach<- function(mixfile, output){
     mix[i,]$reach_n_w <- as.numeric(round(pop_cal*mix[i,]$reach_w/100, digits=0))
     mix[i,]$AF <- mix[i,]$grps/mix[i,]$reach
     mix[i,]$AF_w <- mix[i,]$grps_w/mix[i,]$reach_w
+    mix[i,]$output_pop <- pop_cal
   }
-  mix[i+1,1] <- "output_pop"
-  mix[i+1,2] <- pop_cal
+
+
+
   return(mix)
 
   rm(list="parameter")
