@@ -278,14 +278,15 @@ mix_reach<- function(mixfile, output){
     mix[i,]$AF <- mix[i,]$grps/mix[i,]$reach
     mix[i,]$AF_w <- mix[i,]$grps_w/mix[i,]$reach_w
     mix[i,]$output_pop <- pop_cal
-    mix[i,]$output_pop <- as.numeric(mix[i,]$output_pop)
+
   }
 
-
+  mix$output_pop <- as.numeric(mix$output_pop)
 
   return(mix)
 
   rm(list="parameter")
   rm(list="pop_cal")
 }
+
 
