@@ -277,7 +277,8 @@ mix_reach<- function(mixfile, output){
     mix[i,]$AF <- mix[i,]$grps/mix[i,]$reach
     mix[i,]$AF_w <- mix[i,]$grps_w/mix[i,]$reach_w
   }
-
+  mix[i+1,1] <- "output_pop"
+  mix[i+1,2] <- pop_cal
   return(mix)
 
   rm(list="parameter")
