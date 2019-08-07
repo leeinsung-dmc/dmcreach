@@ -11,7 +11,11 @@
 
 
 
+
+
 mix_reach<- function(mixfile, output){
+
+  ####필요한 함수정의################
 
   inputpopperc <-function(DB_pop_perc) {
 
@@ -115,13 +119,7 @@ mix_reach<- function(mixfile, output){
 
   }
 
-  inputDB("parameter_VA.csv","parameter_DA.csv")
-  inputpop("pop.csv")
-  inputpopperc("pop_perc.csv")
 
-  load("parameter_DB.RData")
-  load("pop_DB.RData")
-  load("popperc_DB.RData")
 
   ##교집합 타겟 산출 함수 정의
   temptarget_logic <-function(a,b)
@@ -208,11 +206,23 @@ mix_reach<- function(mixfile, output){
     rm(list="temp_mix")
   }
 
+  ####필요한 함수정의 끝################
+
+
   ##e_reach 함수 테스트용
   ##rm(list="mix")
   ##mix<-read.csv("temp1.csv", stringsAsFactors=FALSE)
   ##output<-c("M",5069)
   ##i<-15
+
+  inputDB("parameter_VA.csv","parameter_DA.csv")
+  inputpop("pop.csv")
+  inputpopperc("pop_perc.csv")
+
+  load("parameter_DB.RData")
+  load("pop_DB.RData")
+  load("popperc_DB.RData")
+
 
   mix<-read.csv(mixfile, stringsAsFactors=FALSE)
   mix<-transoverall(mix)
@@ -244,7 +254,7 @@ mix_reach<- function(mixfile, output){
       filter(gender==mix[i,]$output_target_gender & age==mix[i,]$output_target_age)%>%
       select(pop)
     #####!! 만약 모수를 직접 입력하고 싶으면 여기에서!
-    ##pop_cal<-1492523
+    ##pop_cal<-17821489
 
     temptarget_input <- c(as.character(mix[i,]$gender),as.numeric(as.character(mix[i,]$target)))
     temptarget_output <-  c(as.character(mix[i,]$output_target_gender),as.numeric(as.character(mix[i,]$output_target_age)))
@@ -281,14 +291,15 @@ mix_reach<- function(mixfile, output){
     mix[i,]$AF_w <- mix[i,]$grps_w/mix[i,]$reach_w
     mix[i,]$output_pop <- pop_cal
 
+
   }
 
   mix$output_pop <- as.numeric(mix$output_pop)
 
   return(mix)
 
-  rm(list="parameter")
-  rm(list="pop_cal")
+
+
 }
 
 
