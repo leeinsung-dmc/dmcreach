@@ -272,7 +272,9 @@ mix_reach<- function(mixfile, output){
     mix[i,]$grps <- as.numeric(round(mix[i,]$impression_target/pop_cal*100, digits=2))
     mix[i,]$grps_w <- as.numeric(round(mix[i,]$impression_target*parameter[4]/pop_cal*100, digits=2))
     mix[i,]$reach <- as.numeric(round(parameter[1]/(1+exp(-(log(mix[i,]$grps)*parameter[2]+parameter[3])))*100, digits=2))
+    ifelse(mix[i,]$reach<grps, mix[i,]$reach<-mix[i,]$reach, mix[i,]$reach<-mix[i,]$grps)
     mix[i,]$reach_w <- as.numeric(round(parameter[1]/(1+exp(-(log(mix[i,]$grps*parameter[4])*parameter[2]+parameter[3])))*100, digits=2))
+    ifelse(mix[i,]$reach_w<grps_w, mix[i,]$reach_w<-mix[i,]$reach_w, mix[i,]$reach_w<-mix[i,]$grps_w)
     mix[i,]$reach_n <- as.numeric(round(pop_cal*mix[i,]$reach/100, digits=0))
     mix[i,]$reach_n_w <- as.numeric(round(pop_cal*mix[i,]$reach_w/100, digits=0))
     mix[i,]$AF <- mix[i,]$grps/mix[i,]$reach

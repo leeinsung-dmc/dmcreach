@@ -186,7 +186,9 @@ mix_reach_channel <- function(result2) {
 
     ## 계산
     mix[i,]$reach <- as.numeric(round(parameter[1]/(1+exp(-(log(mix[i,]$temp_grps)*parameter[2]+parameter[3])))*100, digits=2))
+    ifelse(mix[i,]$reach<grps, mix[i,]$reach<-mix[i,]$reach, mix[i,]$reach<-mix[i,]$grps)
     mix[i,]$reach_w <- as.numeric(round(parameter[1]/(1+exp(-(log(mix[i,]$temp_grps_w)*parameter[2]+parameter[3])))*100, digits=2))
+    ifelse(mix[i,]$reach_w<grps_w, mix[i,]$reach_w<-mix[i,]$reach_w, mix[i,]$reach_w<-mix[i,]$grps_w)
     mix[i,]$reach_n <- as.numeric(round(pop_cal*mix[i,]$reach/100, digits=0))
     mix[i,]$reach_n_w <- as.numeric(round(pop_cal*mix[i,]$reach_w/100, digits=0))
     mix[i,]$AF <- mix[i,]$grps/mix[i,]$reach
