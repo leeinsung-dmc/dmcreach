@@ -13,7 +13,7 @@
 
 ########채널레벨
 
-mix_reach_channel <- function(result2) {
+mix_reach_channel_test <- function(result2) {
 
   result_channel<-unique(subset(result2, select = c(type, Device, Channel)))
   result_channel[,c("type","Device","Channel")] <- lapply(result_channel[,c("type","Device","Channel")],as.character)
@@ -34,109 +34,6 @@ mix_reach_channel <- function(result2) {
 
 
   ####필요한 함수정의################
-
-  inputpopperc <-function(DB_pop_perc) {
-
-    pop_perc<-read.csv(DB_pop_perc,stringsAsFactors=FALSE)
-    save(pop_perc, file="popperc_DB.RData")
-  }
-
-
-  inputDB <- function(DB_VA,DB_DA) {
-
-    parameter_DB<-read.csv(DB_VA, stringsAsFactors=FALSE)
-    cname<-c("Level","Device","Channel","Vehicle","target","gender")
-    parameter_DB[,cname] <- lapply(parameter_DB[,cname],as.factor)
-
-    names(parameter_DB)[names(parameter_DB)=="계산용.limit"]<-c("limit_c")
-
-    parameter_DB2<-read.csv(DB_DA, stringsAsFactors=FALSE)
-    parameter_DB2[,cname] <- lapply(parameter_DB2[,cname],as.factor)
-
-
-    names(parameter_DB2)[names(parameter_DB2)=="계산용.limit"]<-c("limit_c")
-    names(parameter_DB2)[names(parameter_DB2)=="가중치"]<-c("weight")
-
-    VA<-parameter_DB
-    DA<-parameter_DB2
-    VA[,23] <- 1
-    DA[,24] <- "DA"
-    VA[,24] <- "VA"
-    names(VA)<-names(DA)
-    bind_DB<-rbind(VA,DA)
-
-    names(bind_DB)[names(bind_DB)=="V24"]<-c("type")
-
-    bind_DB_check<-bind_DB
-
-    bind_DB[,cname] <- lapply(bind_DB[,cname],as.character)
-
-    rm(list="DA")
-    rm(list="VA")
-    rm(list="parameter_DB")
-    rm(list="parameter_DB2")
-    rm(list="cname")
-
-    save(bind_DB, bind_DB_check, file="parameter_DB.RData")
-
-  }
-
-
-  inputpop <- function(popDB) {
-
-    pop <- read.csv(popDB, stringsAsFactors=FALSE)
-    pop$pop<-as.numeric(gsub(",","",pop$pop))
-    pop$age<-as.character(pop$age)
-    pop$age_min<-as.character(pop$age_min)
-    pop$age_max<-as.character(pop$age_max)
-
-    c=1
-    i=1
-    k=1
-    gender=1
-
-    ## 1. 남자별,여자별 모수생성
-    for(gender in 1:2){
-      for(i in 1:10){
-        for(k in 1:(11-i)){
-          pop[22+c,]$pop<-sum(pop[(i+11*(gender-1)):(i+11*(gender-1)+k),5])
-          pop[22+c,]$age_min<-pop[i+11*(gender-1),]$age_min
-          pop[22+c,]$age_max<-pop[i+11*(gender-1)+k,]$age_max
-          pop[22+c,]$age<-paste(pop[22+c,]$age_min,pop[22+c,]$age_max,sep="")
-          pop[22+c,]$gender<-pop[i+11*(gender-1),]$gender
-          c<-c+1
-        }
-      }
-    }
-
-    ## 2. 남녀 모수 생성
-
-    temp_M<-pop%>%
-      filter(gender=="M")
-    temp_F<-pop%>%
-      filter(gender=="F")
-
-    temp_MF<-data.frame(gender="MF",age=temp_M$age,age_min=temp_M$age_min,age_max=temp_M$age_max,pop=temp_M$pop+temp_F$pop)
-
-    pop<-rbind(pop,temp_MF)
-
-    rownames(pop)<-NULL
-
-
-    ##임시 객체 삭제
-    rm(list="temp_F")
-    rm(list="temp_M")
-    rm(list="temp_MF")
-    rm(list="c")
-    rm(list="gender")
-    rm(list="i")
-    rm(list="k")
-
-    save(pop, file="pop_DB.RData")
-
-
-  }
-
   ###필수 DB 입력
 
   inputDB("parameter_VA.csv","parameter_DA.csv")
