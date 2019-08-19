@@ -13,7 +13,7 @@
 
 ########채널레벨
 
-mix_reach_channel <- function(result2) {
+mix_reach_channel_test <- function(result2) {
 
   result_channel<-unique(subset(result2, select = c(type, Device, Channel)))
   result_channel[,c("type","Device","Channel")] <- lapply(result_channel[,c("type","Device","Channel")],as.character)

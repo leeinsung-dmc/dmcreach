@@ -14,7 +14,7 @@
 
 ###Vehicle Level Reach 예측 함수 정의
 
-mix_reach_vehicle <- function(mix) {
+mix_reach_vehicle_test <- function(mix) {
 
   ##결과 레이아웃 정의
 
