@@ -10,7 +10,7 @@
 #'@export
 
 
-mix_reach_test<- function(mixfile, output){
+mix_reach<- function(mixfile, output){
 
   ####필요한 함수정의 끝################
 
